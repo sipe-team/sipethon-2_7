@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - BE/feature-6
+      - cicd-test
 
 jobs:
   build:
