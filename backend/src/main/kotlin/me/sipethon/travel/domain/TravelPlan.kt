@@ -16,7 +16,8 @@ import jakarta.persistence.ManyToOne
 @Entity
 class TravelPlan(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = 0,
+    val id: Long = 0,
+
     @Convert(converter = JsonConverter::class)
     @Column(columnDefinition = "TEXT")
     var plan: Map<String, Any> = emptyMap(),
