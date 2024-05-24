@@ -20,7 +20,7 @@ class TravelPlan(
 
     @Convert(converter = JsonConverter::class)
     @Column(columnDefinition = "TEXT")
-    var plan: Map<String, Any>,
+    var plan: Plan,
 
     @Column(name = "user_id")
     val userId: Long,
@@ -51,15 +51,14 @@ class TravelPlan(
     val createdAt: LocalDateTime = LocalDateTime.now()
 )
 
-class JsonConverter : AttributeConverter<Map<String, Any>, String> {
-
+class JsonConverter : AttributeConverter<Plan, String> {
     private val objectMapper = jacksonObjectMapper()
 
-    override fun convertToDatabaseColumn(attribute: Map<String, Any>?): String {
+    override fun convertToDatabaseColumn(attribute: Plan): String {
         return objectMapper.writeValueAsString(attribute)
     }
 
-    override fun convertToEntityAttribute(dbData: String?): Map<String, Any> {
+    override fun convertToEntityAttribute(dbData: String?): Plan {
         return objectMapper.readValue(dbData ?: "")
     }
 }

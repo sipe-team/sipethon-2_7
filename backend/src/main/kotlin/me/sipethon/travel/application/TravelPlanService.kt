@@ -1,6 +1,11 @@
 package me.sipethon.travel.application
 
-
+import me.sipethon.travel.domain.Activity
+import me.sipethon.travel.domain.ActivityType
+import me.sipethon.travel.domain.Budget
+import me.sipethon.travel.domain.Plan
+import me.sipethon.travel.domain.PlanDetail
+import me.sipethon.travel.domain.Schedule
 import me.sipethon.travel.domain.TravelPlan
 import me.sipethon.travel.domain.TravelPlanKeyword
 import me.sipethon.travel.infrastructure.TravelPlanKeywordRepository
@@ -20,18 +25,18 @@ class TravelPlanService(
     private val openAIService: OpenAIService,
 ) {
     @Transactional
-    fun createTravelPlan(userId: Long, travelPlanRequest: TravelPlanRequest): Long {
+    fun createTravelPlan(userId: Long, travelPlanRequest: TravelPlanRequest): Pair<TravelPlan, List<TravelPlanKeyword>> {
         val user = userRepository.findByIdOrNull(userId)
             ?: throw RuntimeException("User not found")
 
         val travelPlanString = travelPlanRequest.toTravelPlan()
-        val generatedPlan = openAIService.generateTravelPlan(travelPlanString)
+        val generatedPlan = Plan.dummy()
 
         val travelPlan = travelPlanRepository.save(
             TravelPlan(
                 userId = user.id,
                 plan = generatedPlan,
-                thumbnail = "", // TODO : get thumbnail from generatedPlan
+                thumbnail = generatedPlan.thumbnail,
                 location = travelPlanRequest.location,
                 duration = travelPlanRequest.duration,
                 people = travelPlanRequest.people,
@@ -47,7 +52,7 @@ class TravelPlanService(
         }
         travelPlanKeywordRepository.saveAll(travelPlanKeywords)
 
-        return travelPlan.id
+        return travelPlan to travelPlanKeywords
     }
 
     @Transactional
@@ -77,5 +82,18 @@ class TravelPlanService(
         return travelPlans.associateWith { travelPlan ->
             travelPlanKeywords.filter { it.travelPlanId == travelPlan.id }
         }
+    }
+
+    fun findTravelPlan(userId: Long, travelPlanId: Long): Pair<TravelPlan, List<TravelPlanKeyword>> {
+        val travelPlan = travelPlanRepository.findByIdOrNull(travelPlanId)
+            ?: throw RuntimeException("TravelPlan not found")
+        val user = userRepository.findByIdOrNull(userId)
+            ?: throw RuntimeException("User not found")
+        if (travelPlan.userId != user.id) {
+            throw RuntimeException("TravelPlan does not belong to user")
+        }
+        val travelPlanKeywords = travelPlanKeywordRepository.findAllByTravelPlanIdIn(listOf(travelPlan.id))
+
+        return travelPlan to travelPlanKeywords
     }
 }
