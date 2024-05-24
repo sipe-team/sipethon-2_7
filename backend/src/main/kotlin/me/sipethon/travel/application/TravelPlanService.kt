@@ -30,7 +30,7 @@ class TravelPlanService(
             ?: throw RuntimeException("User not found")
 
         val travelPlanString = travelPlanRequest.toTravelPlan()
-        val generatedPlan = generateTravelPlan(travelPlanString)
+        val generatedPlan = generateTravelPlan(travelPlanRequest.location, travelPlanString)
 
         val travelPlan = travelPlanRepository.save(
             TravelPlan(
@@ -55,13 +55,13 @@ class TravelPlanService(
         return travelPlan to travelPlanKeywords
     }
 
-    private fun generateTravelPlan(travelPlanString: String): Plan {
+    private fun generateTravelPlan(location: String, travelPlanString: String): Plan {
         val generatedPlan = openAIService.generateTravelPlan(travelPlanString)
 
         val titles = generatedPlan.travelPlan
             .map { it.schedule }
             .map { schedule -> schedule.flatMap { it.titles } }
-        val imageMap = imageSearchService.search(titles.flatten())
+        val imageMap = imageSearchService.search(titles.flatten() + location)
         generatedPlan.travelPlan.forEach { planDetail ->
             planDetail.schedule.forEach { schedule ->
                 schedule.activities.filter { activity -> activity.type == ActivityType.COMPLEX }
@@ -71,7 +71,7 @@ class TravelPlanService(
             }
         }
 
-        generatedPlan.thumbnail = imageMap.values.random()
+        generatedPlan.thumbnail = imageMap[location]!!
         return generatedPlan
     }
 

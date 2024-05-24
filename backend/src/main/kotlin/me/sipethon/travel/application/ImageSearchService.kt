@@ -54,7 +54,7 @@ class ImageSearchService(
     private fun extractFirstImageUrl(item: Any): String? {
         return try {
             val images = (item as Map<String, Any>)["images"] as List<*>
-            val firstImage = images.random() as Map<String, Any>
+            val firstImage = images.first() as Map<String, Any>
             firstImage["imageUrl"] as String
         } catch (e: Exception) {
             null
