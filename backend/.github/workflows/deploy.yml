@@ -2,7 +2,9 @@ name: Build and Deploy
 
 on:
   push:
-    branches: [ "main", "BE/feature-6" ]
+    branches:
+      - main
+      - BE/feature-6
 
 jobs:
   build:
