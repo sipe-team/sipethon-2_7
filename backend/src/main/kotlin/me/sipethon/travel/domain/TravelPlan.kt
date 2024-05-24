@@ -6,9 +6,12 @@ import jakarta.persistence.AttributeConverter
 import jakarta.persistence.Column
 import jakarta.persistence.Convert
 import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
 
 @Entity
 class TravelPlan(
@@ -17,6 +20,10 @@ class TravelPlan(
     @Convert(converter = JsonConverter::class)
     @Column(columnDefinition = "TEXT")
     var plan: Map<String, Any> = emptyMap(),
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    var user: User = User(),
 
     @Column(name = "is_bookmarked")
     var isBookmarked: Boolean = false
