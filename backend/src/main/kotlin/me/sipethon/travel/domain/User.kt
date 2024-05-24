@@ -13,6 +13,7 @@ class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
+
     @Column
-    val email: String = ""
+    val email: String
 )
