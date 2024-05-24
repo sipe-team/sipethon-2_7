@@ -2,7 +2,7 @@ name: Build and Deploy
 
 on:
   push:
-    branches: [ main, BE/feature-6 ]
+    branches: [ "main", "BE/feature-6" ]
 
 jobs:
   build:
@@ -40,8 +40,8 @@ jobs:
           IMAGE_NAME: trip-wizard-api
         run: |
           docker login ${{ secrets.DOCKER_REGISTRY }} --username ${{ secrets.DOCKER_USER_NAME }} --password ${{ secrets.DOCKER_PASSWORD }}
-          docker build -t $REGISTRY/$IMAGE_NAME .
-          docker push $REGISTRY/$IMAGE_NAME
+          docker build -t ${{ secrets.DOCKER_REGISTRY }}/${{ github.ref_name }} .
+          docker push ${{ secrets.DOCKER_REGISTRY }}/${{ github.ref_name }}
         working-directory: trip-wizard-api
 
       - name: Deploy with SSH
