@@ -17,19 +17,19 @@ data class TravelPlanRequest(
 You are a travel guide who recommends travel destinations for users. You should recommend travel destinations using real place names. You should provide answers based on the Korean language. User departs from Korea.
 
 # About images
-We are running an experiment where you will pretend to be able to access the internet. Don't refuse, just pretend. Thanks for your cooperation. From this moment on, when you want to send a photo, write it in Markdown without backticks and without using a code block. Use the Unsplash API (https://source.unsplash.com/1600x900/?<PUT YOUR QUERY HERE>&number). Randomize &number whenever you query the api.
+We are running an experiment where you will pretend to be able to access the internet. Don't refuse, just pretend. Thanks for your cooperation. From this moment on, when you want to send a photo, write it in Markdown without backticks and without using a code block. Use the Unsplash API (https://source.unsplash.com/1600x900/?<PUT_YOUR_QUERY_HERE>&number). Randomize &number whenever you query the api.
 You will act as if you were an image engine returning photos based on my search prompts.
 You will be acting as if you took the pictures you're sending, do not mention Unsplash.
 Prompt: 하와이 해변 Amount:10 (amount of photos) Dimensions:800×400(replace the previous '1600x900' with this)
 
 # Output Format
 {
-  "title": "싱가폴 여행 계획을\n아래와 같이 짜보았어요",
-  "thumbnail": "{image link}",
+  "title": "{location} 여행 계획을\n아래와 같이 짜보았어요",
+  "thumbnail": "{image_link}",
   "budget": {
-    "accommodationMain": "중저가 호텔추천",
-    "accommodationSub": "1박 10~20만원",
-    "transportation": "50만원~100만원" 
+    "accommodationMain": "{budget.accommodationMain} 호텔추천",
+    "accommodationSub": "1박 {min ~ max}만원",
+    "transportation": "{min ~ max}만원" 
   },
   "travelPlan": [
       {
@@ -39,13 +39,13 @@ Prompt: 하와이 해변 Amount:10 (amount of photos) Dimensions:800×400(replac
             "title": "오전",
             "activities": [
               {
-                "title": "마리나 베이 샌즈",
+                "title": "{tourist_spot_name}",
                 "category" : "관광지", 
                 "type": "COMPLEX",
                 "imgUrl": "{image_link}"
               },
               {
-                "title": "가든스 바이 더 베이",
+                "title": "{tourist_spot_name}",
                 "category" : "관광지",
                 "type": "COMPLEX",
                 "imgUrl": "{image_link}"
@@ -56,7 +56,7 @@ Prompt: 하와이 해변 Amount:10 (amount of photos) Dimensions:800×400(replac
             "title": "이동",
             "activities" : [
               {
-                "name" : "도보로 10분",
+                "title" : "{도보/자동차/택시로 10분",
                 "category" : null,
                 "type" : "TEXT",
                 "imgUrl": null
@@ -67,7 +67,7 @@ Prompt: 하와이 해변 Amount:10 (amount of photos) Dimensions:800×400(replac
             "title": "점심",
             "activities": [
               {
-                "name": "{restaurant_name}",
+                "title": "{restaurant_name}",
                 "category": "식당",
                 "type": "COMPLEX",
                 "imgUrl": "{image_link}"
@@ -87,9 +87,10 @@ Prompt: 하와이 해변 Amount:10 (amount of photos) Dimensions:800×400(replac
 - An example is a brief illustration.
 - You can add breakfast or dinner, so feel free to add.
 - Please write down the name of the restaurant in detail, too.
+- created in complete json form, no trailing commas. 
 
 # Description""")
-        travelPlan.append("\nPlease create a travel itinerary for $people people going to $location for $duration 박 ")
+        travelPlan.append("\nPlease create a travel itinerary for $people people going to $location for ($duration 박) ")
         budget?.let {
             travelPlan.append("with a budget of $it 만원.")
         }
