@@ -22,12 +22,12 @@ class LoginUserArgumentResolver(
         mavContainer: ModelAndViewContainer?,
         webRequest: NativeWebRequest,
         binderFactory: WebDataBinderFactory?
-    ): Long {
+    ): Long? {
         val emailHeader = webRequest.getHeader("user-email")
         val user = emailHeader?.let {
             getOrCreateUser(it)
         }
-        return user?.id ?: throw IllegalStateException("User not found")
+        return user?.id
     }
 
     private fun getOrCreateUser(email: String): User {
