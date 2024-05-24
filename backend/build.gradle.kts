@@ -6,6 +6,7 @@ plugins {
 	kotlin("jvm") version "1.9.23"
 	kotlin("plugin.spring") version "1.9.23"
 	kotlin("plugin.jpa") version "1.9.23"
+	kotlin("plugin.serialization") version "1.5.31"
 }
 
 group = "me.sipethon"
@@ -24,6 +25,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
 
 	implementation("com.h2database:h2")
 	implementation("com.mysql:mysql-connector-j")

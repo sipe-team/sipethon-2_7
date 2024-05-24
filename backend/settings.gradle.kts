@@ -1,1 +1,1 @@
-rootProject.name = "toy"
+rootProject.name = "ai-travel-planner"

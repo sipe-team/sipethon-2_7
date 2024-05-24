@@ -1,5 +1,8 @@
 package me.sipethon.travel.domain
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Plan(
     val title: String,
     val thumbnail: String,
