@@ -6,12 +6,10 @@ import jakarta.persistence.AttributeConverter
 import jakarta.persistence.Column
 import jakarta.persistence.Convert
 import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
+import java.time.LocalDateTime
 
 @Entity
 class TravelPlan(
@@ -20,13 +18,16 @@ class TravelPlan(
 
     @Convert(converter = JsonConverter::class)
     @Column(columnDefinition = "TEXT")
-    var plan: Map<String, Any> = emptyMap(),
+    var plan: Map<String, Any>,
 
     @Column(name = "user_id")
-    val userId: Long = 0,
+    val userId: Long,
 
     @Column(name = "is_bookmarked")
-    var isBookmarked: Boolean = false
+    var isBookmarked: Boolean = false,
+
+    @Column(name = "created_at")
+    val createdAt: LocalDateTime = LocalDateTime.now()
 )
 
 class JsonConverter : AttributeConverter<Map<String, Any>, String> {
