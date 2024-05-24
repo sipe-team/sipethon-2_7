@@ -30,7 +30,7 @@ class TravelPlanService(
             ?: throw RuntimeException("User not found")
 
         val travelPlanString = travelPlanRequest.toTravelPlan()
-        val generatedPlan = Plan.dummy()
+        val generatedPlan = openAIService.generateTravelPlan(travelPlanString)
 
         val travelPlan = travelPlanRepository.save(
             TravelPlan(
