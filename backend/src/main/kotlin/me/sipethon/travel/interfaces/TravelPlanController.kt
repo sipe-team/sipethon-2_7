@@ -33,18 +33,18 @@ class TravelPlanController(
         TODO()
     }
 
-    @PostMapping("/bookmark/{historyId}")
+    @PostMapping("/bookmark/{travelPlanId}")
     fun bookmark(
         @LoginUser userId: Long,
-        @PathVariable historyId: Long
+        @PathVariable travelPlanId: Long
     ): BookmarkResponse {
         TODO()
     }
 
-    @GetMapping("/travel-plan/{historyId}")
+    @GetMapping("/travel-plan/{travelPlanId}")
     fun getTravelPlan(
         @LoginUser userId: Long,
-        @PathVariable historyId: Long
+        @PathVariable travelPlanId: Long
     ): TravelPlanResponse {
         TODO()
     }
