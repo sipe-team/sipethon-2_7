@@ -1,8 +1,8 @@
-package me.spiethon.travel.application
+package me.sipethon.travel.application
 
-import me.spiethon.travel.domain.TravelPlan
-import me.spiethon.travel.domain.TravelPlanPreferences
-import me.spiethon.travel.infrastructure.TravelPlanRepository
+import me.sipethon.travel.domain.TravelPlan
+import me.sipethon.travel.domain.TravelPlanPreferences
+import me.sipethon.travel.infrastructure.TravelPlanRepository
 import org.springframework.stereotype.Service
 
 @Service

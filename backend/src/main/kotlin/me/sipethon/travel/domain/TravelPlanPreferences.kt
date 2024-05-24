@@ -1,4 +1,4 @@
-package me.spiethon.travel.domain
+package me.sipethon.travel.domain
 
 data class TravelPlanPreferences(
     val location: String?,

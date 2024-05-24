@@ -1,4 +1,4 @@
-package me.spiethon.travel.application
+package me.sipethon.travel.application
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpHeaders
