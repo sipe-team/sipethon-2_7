@@ -1,6 +1,5 @@
 package me.sipethon.travel.infrastructure
 
-import me.sipethon.travel.domain.TravelPlan
 import me.sipethon.travel.domain.TravelPlanKeyword
 import org.springframework.data.jpa.repository.JpaRepository
 

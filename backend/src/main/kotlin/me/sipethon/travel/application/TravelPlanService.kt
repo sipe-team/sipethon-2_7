@@ -68,7 +68,7 @@ class TravelPlanService(
 
     fun searchHistory(userId: Long, onlyBookmarked: Boolean): Map<TravelPlan, List<TravelPlanKeyword>> {
         val travelPlans = if (onlyBookmarked) {
-            travelPlanRepository.findAllByUserIdAndBookmarkedTrueOrderByCreatedAtDesc(userId)
+            travelPlanRepository.findAllByUserIdAndIsBookmarkedTrueOrderByCreatedAtDesc(userId)
         } else {
             travelPlanRepository.findAllByUserIdOrderByCreatedAtDesc(userId)
         }

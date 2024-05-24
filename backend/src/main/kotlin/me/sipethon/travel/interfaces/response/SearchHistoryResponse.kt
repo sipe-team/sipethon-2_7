@@ -18,7 +18,7 @@ data class SearchHistoryResponse(
                 budget = travelPlan.budget,
                 groupType = travelPlan.groupType,
                 keywords = keywords.map { it.keyword },
-                createdAt = DateTimeFormatter.ofPattern("MM월 dd일, a hh시").format(travelPlan.createdAt),
+                createdAt = DateTimeFormatter.ofPattern("M월 d일, a h시").format(travelPlan.createdAt),
                 isBookmarked = travelPlan.isBookmarked
             )
         }
