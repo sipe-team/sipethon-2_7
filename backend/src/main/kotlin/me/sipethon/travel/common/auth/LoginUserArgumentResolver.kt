@@ -24,10 +24,9 @@ class LoginUserArgumentResolver(
         binderFactory: WebDataBinderFactory?
     ): Long? {
         val emailHeader = webRequest.getHeader("user-email")
-        val user = emailHeader?.let {
-            getOrCreateUser(it)
-        }
-        return user?.id
+            ?: return null
+        val user = getOrCreateUser(emailHeader)
+        return user.id
     }
 
     private fun getOrCreateUser(email: String): User {
