@@ -12,7 +12,7 @@ class TravelPlanController(
 
     @PostMapping("/travel-plan")
     fun createTravelPlan(
-        @LoginUser user: Long,
+        @LoginUser userId: Long,
         @RequestBody preferences: TravelPlanPreferences,
     ): Long {
         return travelPlanService.createTravelPlan(preferences)
