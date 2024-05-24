@@ -2,6 +2,7 @@ package me.sipethon.travel.application
 
 import kotlinx.serialization.json.Json
 import me.sipethon.travel.domain.Plan
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
@@ -13,6 +14,8 @@ import org.springframework.web.reactive.function.client.WebClient
 class OpenAIService(
     @Value("\${openai.api.key}") private val openaiApiKey: String,
 ) {
+
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     private val webClient: WebClient = WebClient.builder()
         .baseUrl("https://api.openai.com/v1")
@@ -49,6 +52,7 @@ class OpenAIService(
             val messageJson = (assistantMessage["message"] as Map<String, Any>)["content"] as String
             Json.decodeFromString<Plan>(messageJson)
         } catch (e: Exception) {
+            logger.error("Failed to generate travel plan", e)
             Plan.dummy()
         }
     }

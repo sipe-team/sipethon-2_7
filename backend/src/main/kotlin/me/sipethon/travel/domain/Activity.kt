@@ -7,5 +7,5 @@ data class Activity(
     val title: String,
     val category: String?,
     val type: ActivityType,
-    val imgUrl: String?
+    var imgUrl: String?
 )

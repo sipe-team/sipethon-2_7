@@ -25,7 +25,7 @@ class TravelPlan(
     @Column(name = "user_id")
     val userId: Long,
 
-    @Column(name = "thumbnail")
+    @Column(name = "thumbnail", columnDefinition = "TEXT")
     val thumbnail: String,
 
     @Column(name = "is_bookmarked")

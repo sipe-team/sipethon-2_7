@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Plan(
     val title: String,
-    val thumbnail: String,
+    var thumbnail: String,
     val budget: Budget,
     val travelPlan: List<PlanDetail>
 ) {
