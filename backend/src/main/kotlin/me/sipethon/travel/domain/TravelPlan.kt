@@ -13,10 +13,13 @@ import jakarta.persistence.Id
 @Entity
 class TravelPlan(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
+    var id: Long = 0,
     @Convert(converter = JsonConverter::class)
     @Column(columnDefinition = "TEXT")
     var plan: Map<String, Any> = emptyMap(),
+
+    @Column(name = "is_bookmarked")
+    var isBookmarked: Boolean = false
 )
 
 class JsonConverter : AttributeConverter<Map<String, Any>, String> {

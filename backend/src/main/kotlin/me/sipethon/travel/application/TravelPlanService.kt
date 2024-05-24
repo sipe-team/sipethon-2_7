@@ -1,7 +1,9 @@
 package me.sipethon.travel.application
 
+import jakarta.transaction.Transactional
 import me.sipethon.travel.domain.TravelPlan
 import me.sipethon.travel.infrastructure.TravelPlanRepository
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
@@ -9,13 +11,20 @@ class TravelPlanService(
     private val travelPlanRepository: TravelPlanRepository,
     private val openAIService: OpenAIService,
 ) {
+    @Transactional
+    fun createTravelPlan(travelPlanString: String): Long {
+        val generatedPlan = openAIService.generateTravelPlan(travelPlanString)
+        val travelPlan = travelPlanRepository.save(TravelPlan(plan = generatedPlan))
+        return travelPlan.id
+    }
 
-    fun createTravelPlan(travelPlan: String) : Long {
-        // Use the OpenAi Api for creating AI Travel Plan
-        val generatedPlan = openAIService.generateTravelPlan(travelPlan)
+    @Transactional
+    fun bookmark(userId: Long, travelPlanId: Long): TravelPlan {
+        val travelPlan = travelPlanRepository.findByIdOrNull(travelPlanId)
+            ?: throw RuntimeException("TravelPlan not found")
 
-        // save the generated travel plan and return the results
-        val travelPlan = travelPlanRepository.save(TravelPlan(null, generatedPlan))
-        return travelPlan.id?: throw RuntimeException("TravelPlan creation Failed")
+        travelPlan.isBookmarked = !travelPlan.isBookmarked
+
+        return travelPlan
     }
 }
