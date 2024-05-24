@@ -22,9 +22,8 @@ class TravelPlan(
     @Column(columnDefinition = "TEXT")
     var plan: Map<String, Any> = emptyMap(),
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    var user: User = User(),
+    @Column(name = "user_id")
+    val userId: Long = 0,
 
     @Column(name = "is_bookmarked")
     var isBookmarked: Boolean = false

@@ -18,7 +18,7 @@ class TravelPlanService(
         val user = userRepository.findByIdOrNull(userId)
             ?: throw RuntimeException("User not found")
         val generatedPlan = openAIService.generateTravelPlan(travelPlanString)
-        val travelPlan = travelPlanRepository.save(TravelPlan(user = user, plan = generatedPlan))
+        val travelPlan = travelPlanRepository.save(TravelPlan(userId = user.id, plan = generatedPlan))
         return travelPlan.id
     }
 
@@ -29,7 +29,7 @@ class TravelPlanService(
         val user = userRepository.findByIdOrNull(userId)
             ?: throw RuntimeException("User not found")
 
-        if (travelPlan.user.id != user.id) {
+        if (travelPlan.userId != user.id) {
             throw RuntimeException("TravelPlan does not belong to user")
         }
 
