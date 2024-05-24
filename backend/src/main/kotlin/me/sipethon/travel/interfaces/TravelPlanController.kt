@@ -38,7 +38,8 @@ class TravelPlanController(
         @LoginUser userId: Long,
         @PathVariable travelPlanId: Long
     ): BookmarkResponse {
-        TODO()
+        val travelPlan = travelPlanService.bookmark(userId, travelPlanId)
+        return BookmarkResponse(travelPlan.id, travelPlan.isBookmarked)
     }
 
     @GetMapping("/travel-plan/{travelPlanId}")
