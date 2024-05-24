@@ -6,6 +6,8 @@ import jakarta.persistence.AttributeConverter
 import jakarta.persistence.Column
 import jakarta.persistence.Convert
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
@@ -23,8 +25,27 @@ class TravelPlan(
     @Column(name = "user_id")
     val userId: Long,
 
+    @Column(name = "thumbnail")
+    val thumbnail: String,
+
     @Column(name = "is_bookmarked")
     var isBookmarked: Boolean = false,
+
+    @Column(name = "location")
+    val location: String,
+
+    @Column(name = "duration")
+    val duration: Int,
+
+    @Column(name = "people")
+    val people: Int,
+
+    @Column(name = "budget")
+    val budget: Int?,
+
+    @Column(name = "group_type")
+    @Enumerated(EnumType.STRING)
+    val groupType: GroupType?,
 
     @Column(name = "created_at")
     val createdAt: LocalDateTime = LocalDateTime.now()
