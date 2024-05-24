@@ -25,6 +25,9 @@ class TravelPlan(
     @Column(name = "user_id")
     val userId: Long,
 
+    @Column(name = "thumbnail")
+    val thumbnail: String,
+
     @Column(name = "is_bookmarked")
     var isBookmarked: Boolean = false,
 

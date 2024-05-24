@@ -22,6 +22,7 @@ class TravelPlanController(
         @LoginUser userId: Long,
         @RequestBody preferences: TravelPlanRequest,
     ): TravelPlanResponse {
+        travelPlanService.createTravelPlan(userId, preferences)
         TODO()
     }
 

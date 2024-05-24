@@ -29,6 +29,7 @@ class TravelPlanService(
             TravelPlan(
                 userId = user.id,
                 plan = generatedPlan,
+                thumbnail = "", // TODO : get thumbnail from generatedPlan
                 location = travelPlanRequest.location,
                 duration = travelPlanRequest.duration,
                 people = travelPlanRequest.people,
