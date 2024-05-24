@@ -4,3 +4,6 @@ spring:
 openai:
   api:
     key: ${OPENAI_API_KEY:secret}
+google-image-search:
+  api:
+    key: ${GOOGLE_IMAGE_SEARCH_API_KEY:secret}

@@ -1,5 +1,7 @@
 package me.sipethon.travel.application
 
+import me.sipethon.travel.domain.ActivityType
+import me.sipethon.travel.domain.Plan
 import me.sipethon.travel.domain.TravelPlan
 import me.sipethon.travel.domain.TravelPlanKeyword
 import me.sipethon.travel.infrastructure.TravelPlanKeywordRepository
@@ -17,14 +19,18 @@ class TravelPlanService(
     private val userRepository: UserRepository,
     private val travelPlanKeywordRepository: TravelPlanKeywordRepository,
     private val openAIService: OpenAIService,
+    private val imageSearchService: ImageSearchService,
 ) {
     @Transactional
-    fun createTravelPlan(userId: Long, travelPlanRequest: TravelPlanRequest): Pair<TravelPlan, List<TravelPlanKeyword>> {
+    fun createTravelPlan(
+        userId: Long,
+        travelPlanRequest: TravelPlanRequest
+    ): Pair<TravelPlan, List<TravelPlanKeyword>> {
         val user = userRepository.findByIdOrNull(userId)
             ?: throw RuntimeException("User not found")
 
         val travelPlanString = travelPlanRequest.toTravelPlan()
-        val generatedPlan = openAIService.generateTravelPlan(travelPlanString)
+        val generatedPlan = generateTravelPlan(travelPlanString)
 
         val travelPlan = travelPlanRepository.save(
             TravelPlan(
@@ -47,6 +53,26 @@ class TravelPlanService(
         travelPlanKeywordRepository.saveAll(travelPlanKeywords)
 
         return travelPlan to travelPlanKeywords
+    }
+
+    private fun generateTravelPlan(travelPlanString: String): Plan {
+        val generatedPlan = openAIService.generateTravelPlan(travelPlanString)
+
+        val titles = generatedPlan.travelPlan
+            .map { it.schedule }
+            .map { schedule -> schedule.flatMap { it.titles } }
+        val imageMap = imageSearchService.search(titles.flatten())
+        generatedPlan.travelPlan.forEach { planDetail ->
+            planDetail.schedule.forEach { schedule ->
+                schedule.activities.filter { activity -> activity.type == ActivityType.COMPLEX }
+                    .forEach { activity ->
+                        activity.imgUrl = imageMap[activity.title]
+                    }
+            }
+        }
+
+        generatedPlan.thumbnail = imageMap.values.random()
+        return generatedPlan
     }
 
     @Transactional
