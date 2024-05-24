@@ -2,8 +2,11 @@ package me.sipethon.travel.application
 
 import jakarta.transaction.Transactional
 import me.sipethon.travel.domain.TravelPlan
+import me.sipethon.travel.domain.TravelPlanKeyword
+import me.sipethon.travel.infrastructure.TravelPlanKeywordRepository
 import me.sipethon.travel.infrastructure.TravelPlanRepository
 import me.sipethon.travel.infrastructure.UserRepository
+import me.sipethon.travel.interfaces.request.TravelPlanRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -11,14 +14,36 @@ import org.springframework.stereotype.Service
 class TravelPlanService(
     private val travelPlanRepository: TravelPlanRepository,
     private val userRepository: UserRepository,
+    private val travelPlanKeywordRepository: TravelPlanKeywordRepository,
     private val openAIService: OpenAIService,
 ) {
     @Transactional
-    fun createTravelPlan(userId: Long, travelPlanString: String): Long {
+    fun createTravelPlan(userId: Long, travelPlanRequest: TravelPlanRequest): Long {
         val user = userRepository.findByIdOrNull(userId)
             ?: throw RuntimeException("User not found")
+
+        val travelPlanString = travelPlanRequest.toTravelPlan()
         val generatedPlan = openAIService.generateTravelPlan(travelPlanString)
-        val travelPlan = travelPlanRepository.save(TravelPlan(userId = user.id, plan = generatedPlan))
+
+        val travelPlan = travelPlanRepository.save(
+            TravelPlan(
+                userId = user.id,
+                plan = generatedPlan,
+                location = travelPlanRequest.location,
+                duration = travelPlanRequest.duration,
+                people = travelPlanRequest.people,
+                budget = travelPlanRequest.budget,
+                groupType = travelPlanRequest.groupType,
+            )
+        )
+        val travelPlanKeywords = travelPlanRequest.keywords.map {
+            TravelPlanKeyword(
+                travelPlanId = travelPlan.id,
+                keyword = it
+            )
+        }
+        travelPlanKeywordRepository.saveAll(travelPlanKeywords)
+
         return travelPlan.id
     }
 
