@@ -5,9 +5,9 @@ import me.sipethon.travel.domain.Keyword
 
 data class UserInputResponse(
     val location: String,
-    val duration: Int,
-    val people: Int,
-    val budget: Int?,
+    val duration: String,
+    val people: String,
+    val budget: String?,
     val groupType: GroupType?,
     val keywords: List<Keyword>
 )

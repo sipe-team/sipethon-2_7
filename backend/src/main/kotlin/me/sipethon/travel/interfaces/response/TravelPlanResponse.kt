@@ -18,10 +18,10 @@ data class TravelPlanResponse(
         thumbnail = travelPlan.thumbnail,
         userInput = UserInputResponse(
             location = travelPlan.location,
-            duration = travelPlan.duration,
-            people = travelPlan.people,
+            duration = "${travelPlan.duration}박 ${travelPlan.duration + 1}일",
+            people = "${travelPlan.people}명",
             groupType = travelPlan.groupType,
-            budget = travelPlan.budget,
+            budget = travelPlan.budget?.let { "${it}만원" },
             keywords = travelPlanKeywords.map { it.keyword }
         ),
         budget = BudgetResponse(
