@@ -1,0 +1,56 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main, BE/feature-6 ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: |
+          chmod +x gradlew
+
+      - name: Gradlew build
+        run: |
+          ./gradlew clean build -x test
+        working-directory: trip-wizard-api
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          config-inline: |
+            [registry."${{ secrets.DOCKER_REGISTRY }}"]
+              http = true
+              insecure = true
+
+      - name: Build and Push Docker Image
+        env:
+          REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
+          IMAGE_NAME: trip-wizard-api
+        run: |
+          docker login ${{ secrets.DOCKER_REGISTRY }} --username ${{ secrets.DOCKER_USER_NAME }} --password ${{ secrets.DOCKER_PASSWORD }}
+          docker build -t $REGISTRY/$IMAGE_NAME .
+          docker push $REGISTRY/$IMAGE_NAME
+        working-directory: trip-wizard-api
+
+      - name: Deploy with SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER_NAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: 22
+          script: |
+            docker compose up -d
+          working-directory: /root
