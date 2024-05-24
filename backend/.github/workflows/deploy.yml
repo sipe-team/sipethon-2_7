@@ -20,13 +20,11 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: |
-          chmod +x gradlew
-        working-directory: backend
+          chmod +x ./backend/gradlew
 
       - name: Gradlew build
         run: |
-          ./gradlew clean build -x test
-        working-directory: backend
+          ./backend/gradlew clean build -x test
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -42,7 +40,7 @@ jobs:
           IMAGE_NAME: trip-wizard-api
         run: |
           docker login ${{ secrets.DOCKER_REGISTRY }} --username ${{ secrets.DOCKER_USER_NAME }} --password ${{ secrets.DOCKER_PASSWORD }}
-          docker build -t ${{ secrets.DOCKER_REGISTRY }}/${{ github.ref_name }} .
+          docker build -t ${{ secrets.DOCKER_REGISTRY }}/${{ github.ref_name }} ./backend
           docker push ${{ secrets.DOCKER_REGISTRY }}/${{ github.ref_name }}
         working-directory: trip-wizard-api
 
