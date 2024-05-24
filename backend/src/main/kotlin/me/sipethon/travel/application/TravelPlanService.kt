@@ -1,6 +1,6 @@
 package me.sipethon.travel.application
 
-import jakarta.transaction.Transactional
+
 import me.sipethon.travel.domain.TravelPlan
 import me.sipethon.travel.domain.TravelPlanKeyword
 import me.sipethon.travel.infrastructure.TravelPlanKeywordRepository
@@ -9,7 +9,9 @@ import me.sipethon.travel.infrastructure.UserRepository
 import me.sipethon.travel.interfaces.request.TravelPlanRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
+@Transactional(readOnly = true)
 @Service
 class TravelPlanService(
     private val travelPlanRepository: TravelPlanRepository,
@@ -62,5 +64,18 @@ class TravelPlanService(
         travelPlan.isBookmarked = !travelPlan.isBookmarked
 
         return travelPlan
+    }
+
+    fun searchHistory(userId: Long, onlyBookmarked: Boolean): Map<TravelPlan, List<TravelPlanKeyword>> {
+        val travelPlans = if (onlyBookmarked) {
+            travelPlanRepository.findAllByUserIdAndBookmarkedTrueOrderByCreatedAtDesc(userId)
+        } else {
+            travelPlanRepository.findAllByUserIdOrderByCreatedAtDesc(userId)
+        }
+        val travelPlanKeywords = travelPlanKeywordRepository.findAllByTravelPlanIdIn(travelPlans.map { it.id })
+
+        return travelPlans.associateWith { travelPlan ->
+            travelPlanKeywords.filter { it.travelPlanId == travelPlan.id }
+        }
     }
 }
