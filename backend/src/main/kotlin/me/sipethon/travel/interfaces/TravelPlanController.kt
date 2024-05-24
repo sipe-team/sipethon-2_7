@@ -31,7 +31,8 @@ class TravelPlanController(
         @LoginUser userId: Long,
         @RequestParam onlyBookmarked: Boolean
     ): SearchHistoryResponse {
-        TODO()
+        val result = travelPlanService.searchHistory(userId, onlyBookmarked)
+        return SearchHistoryResponse(result)
     }
 
     @PostMapping("/bookmark/{travelPlanId}")
