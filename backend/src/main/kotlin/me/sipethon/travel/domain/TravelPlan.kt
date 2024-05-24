@@ -1,4 +1,4 @@
-package me.spiethon.travel.domain
+package me.sipethon.travel.domain
 
 import jakarta.persistence.*
 import jakarta.persistence.Convert

@@ -1,7 +1,8 @@
-package me.spiethon.travel.interfaces
+package me.sipethon.travel.interfaces
 
-import me.spiethon.travel.application.TravelPlanService
-import me.spiethon.travel.domain.TravelPlanPreferences
+import me.sipethon.travel.application.TravelPlanService
+import me.sipethon.travel.common.auth.LoginUser
+import me.sipethon.travel.domain.TravelPlanPreferences
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -11,6 +12,7 @@ class TravelPlanController(
 
     @PostMapping("/travel-plan")
     fun createTravelPlan(
+        @LoginUser userId: Long,
         @RequestBody preferences: TravelPlanPreferences,
     ): Long {
         return travelPlanService.createTravelPlan(preferences)

@@ -1,4 +1,4 @@
-package me.spiethon.travel
+package me.sipethon.travel
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
