@@ -1,11 +1,5 @@
 package me.sipethon.travel.application
 
-import me.sipethon.travel.domain.Activity
-import me.sipethon.travel.domain.ActivityType
-import me.sipethon.travel.domain.Budget
-import me.sipethon.travel.domain.Plan
-import me.sipethon.travel.domain.PlanDetail
-import me.sipethon.travel.domain.Schedule
 import me.sipethon.travel.domain.TravelPlan
 import me.sipethon.travel.domain.TravelPlanKeyword
 import me.sipethon.travel.infrastructure.TravelPlanKeywordRepository

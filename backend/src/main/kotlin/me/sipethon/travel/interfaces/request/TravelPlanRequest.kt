@@ -56,7 +56,7 @@ Prompt: 하와이 해변 Amount:10 (amount of photos) Dimensions:800×400(replac
             "title": "이동",
             "activities" : [
               {
-                "title" : "{도보/자동차/택시로 10분",
+                "title" : "{도보/자동차/택시}로 10분",
                 "category" : null,
                 "type" : "TEXT",
                 "imgUrl": null
@@ -84,20 +84,21 @@ Prompt: 하와이 해변 Amount:10 (amount of photos) Dimensions:800×400(replac
 - Map an appropriate text from "{저가/중저가/적당한/고가/초호화} 호텔추천" to the {budget.accommodationMain} value
 - Map an appropriate price from "1박에 {최소~최대}만원" to {budget.accommodationSub}.
 - Map an appropriate price from "{최소~최대}만원" to {budget.transportation} for the amount needed for transportation such as airplanes or trains.
-- An example is a brief illustration.
 - You can add breakfast or dinner, so feel free to add.
 - Please write down the name of the restaurant in detail, too.
-- created in complete json form, no trailing commas. 
+- Created in complete json form, no trailing commas. 
+- You should include the schedule to come back to Korea on the last day.
+- You can change the title of the travel plan as you like. Show me your wit. But, you must end the sentence with "~했어요".
 
 # Description""")
-        travelPlan.append("\nPlease create a travel itinerary for $people people going to $location for ($duration 박) ")
+        travelPlan.append("\nPlease create a travel itinerary for $people people going to $location for ${duration + 1} days and $duration nights ")
         budget?.let {
-            travelPlan.append("with a budget of $it 만원.")
+            travelPlan.append("with a budget of ${it}만원. ")
         }
         keywords.let {
             if (it.isNotEmpty()) {
-                val keywordsString = keywords.joinToString(", ", prefix = "[", postfix = "]")
-                travelPlan.append("based on the keywords $keywordsString.")
+                val keywordsString = keywords.joinToString(", ", transform = { keyword -> "\"${keyword}\"" })
+                travelPlan.append("based on the keywords $keywordsString. ")
             }
         }
         groupType?.let {
