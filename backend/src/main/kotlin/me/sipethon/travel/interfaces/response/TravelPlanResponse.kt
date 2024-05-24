@@ -9,7 +9,8 @@ data class TravelPlanResponse(
     val thumbnail: String,
     val userInput: UserInputResponse,
     val budget: BudgetResponse,
-    val travelPlan: List<TravelPlanDetailResponse>
+    val travelPlan: List<TravelPlanDetailResponse>,
+    val isBookmarked: Boolean
 ) {
     constructor(travelPlan: TravelPlan, travelPlanKeywords: List<TravelPlanKeyword>) : this(
         id = travelPlan.id,
@@ -45,6 +46,7 @@ data class TravelPlanResponse(
                     )
                 }
             )
-        }
+        },
+        isBookmarked = travelPlan.isBookmarked
     )
 }
