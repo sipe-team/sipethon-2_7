@@ -1,6 +1,6 @@
 <div align="center">
 
-<h3>`TRIP WIZARD`</h3>
+<h3>TRIP WIZARD <img width="50" alt="image" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOWUxOHEyajgwcjVpdGNiOWZqcDBpMjVueDc5dmVzbnZoNjI4cDhxZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/kUzZPC32NH7qteJp3G/giphy.gif"></h3>
 <img width="150" alt="image" src="https://github.com/sipe-team/sipethon-2_7/assets/42997924/24887553-a369-4911-a474-a65889907022">
 
 🧚‍ **여행 마법사**가 여행 계획을 만들어드립니다 🧚️<br><br>
