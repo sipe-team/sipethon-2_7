@@ -22,8 +22,8 @@ class TravelPlanController(
         @LoginUser userId: Long,
         @RequestBody preferences: TravelPlanRequest,
     ): TravelPlanResponse {
-        travelPlanService.createTravelPlan(userId, preferences)
-        TODO()
+        val (travelPlan, travelPlanKeywords) = travelPlanService.createTravelPlan(userId, preferences)
+        return TravelPlanResponse(travelPlan, travelPlanKeywords)
     }
 
     @GetMapping("/search-history")
@@ -49,6 +49,7 @@ class TravelPlanController(
         @LoginUser userId: Long,
         @PathVariable travelPlanId: Long
     ): TravelPlanResponse {
-        TODO()
+        val (travelPlan, travelPlanKeywords) = travelPlanService.findTravelPlan(userId, travelPlanId)
+        return TravelPlanResponse(travelPlan, travelPlanKeywords)
     }
 }
