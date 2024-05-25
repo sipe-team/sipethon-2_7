@@ -23,3 +23,5 @@
 ## 서비스 소개
 
 <img width="1132" alt="image" src="https://github.com/sipe-team/sipethon-2_7/assets/42997924/7ac6a381-069d-46e6-ab7a-0aecbf694548">
+
+- [Figma](https://www.figma.com/design/hQPHX1N3wooCOkX2qpu6ef/%EC%97%AC%ED%96%89%EC%9D%98-%EB%A7%88%EB%B2%95%EC%82%AC-(%EA%B0%80%EC%A0%9C)?node-id=0-1&t=ltEUfcEIcNbo1Pjj-0)
